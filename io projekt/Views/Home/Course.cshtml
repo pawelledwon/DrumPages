@@ -1,0 +1,207 @@
+@page
+@model Course
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/css/main_style.css">
+    <link rel="stylesheet" href="~/css/Classes.css">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        function showNewLessonForm() {
+            document.getElementById('AddLessonFormBackground').style.display = 'flex';
+        }
+
+        function hideNewLessonForm() {
+            document.getElementById('AddLessonFormBackground').style.display = 'none';
+        }
+    </script>
+
+</head>
+<body>
+
+    @{
+        var model = new io_projekt.Models.Course(ViewBag.courseId);
+        var id = model.getID();
+        var cont = model.getDescription();
+        var author = model.getAuthorName();
+        var diff = model.getDifficulty();
+        var rating = model.getRating();
+
+       
+        var rate = ViewBag.rating;
+
+    }
+
+    <div id="AddLessonFormBackground" style="   position: fixed;
+                                                top: 0;
+                                                left: 0;
+                                                width: 100%;
+                                                height: 100%;
+                                                background-color: rgba(255, 255, 255, 0.75); /* Adjust alpha (opacity) value for transparency */
+                                                z-index: 100; /* Ensure the div is above other content */
+                                                display: none;
+                                                justify-content: center;
+                                                align-items: center;">
+        <div id="AddLessonForm" style=" background-color: white;
+                                        width: 300px;
+                                        height: 500px;">
+            <form asp-controller="Home" asp-action="AddLesson" method="post">
+                <div>
+                    <label for="title">Title:</label>
+                    <input type="text" id="title" name="title" required />
+                </div>
+                <div>
+                    <label for="description">Content:</label>
+                    <textarea id="content" name="content" required></textarea>
+                </div>
+                <div>
+                    <label for="difficulty">YouTube video URL: (optional)</label>
+                    <input type="text" id="videoURL" name="videoURL" />
+                </div>
+                <input type="hidden" id="courseID" name="courseID" value="@ViewBag.courseId" readonly />
+
+                <button type="submit">Submit</button>
+                <button onclick="hideNewLessonForm()">Cancel</button>
+            </form>
+        </div>
+
+    </div>
+
+    <div class="row" style="margin-bottom: 20px;">
+
+        <div class="col-2"></div>
+
+        <div class="col-5">
+
+            <div class="courseDescriptionBlock courseDescriptionSpacing">
+                <div class="courseDescriptionTitle">Course description</div>
+                <div>@cont</div>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="courseDescriptionBlock">
+                <div class="row courseDescription"><div class="col-6 courseDescriptionBold courseDescriptionField">Author:</div><div class="col-6 courseDescriptionField">@author</div></div>
+                <div class="row courseDescription"><div class="col-6 courseDescriptionBold courseDescriptionField">Difficulty:</div><div class="col-6 courseDescriptionField">@diff</div></div>
+                 <div class="row courseDescription">
+     <div class="col-6 courseDescriptionBold courseDescriptionField">Rating: &nbsp&nbsp&nbsp @rating</div><div class="col-6 courseDescriptionField">
+    <a asp-area="" asp-controller="Home" asp-action="rateCourse" asp-route-rating="1" asp-route-courseID="@id">
+        @{
+            if(rate>=1)
+            {
+                <span class="star" id="star1" style="color: yellow;">&#9733;</span>
+            }
+            else
+            {
+                <span class="star" id="star1" style="color: gray;">&#9733;</span>
+            }         
+        }
+    </a>
+    <a asp-area="" asp-controller="Home" asp-action="rateCourse" asp-route-rating="2" asp-route-courseID="@id">
+        @{
+            if(rate>=2)
+            {
+                <span class="star" id="star2" style="color: yellow;">&#9733;</span>
+            }
+            else
+            {
+                <span class="star" id="star2" style="color: gray;">&#9733;</span>
+            }
+        }
+    </a>
+    <a asp-area="" asp-controller="Home" asp-action="rateCourse" asp-route-rating="3" asp-route-courseID="@id">
+        @{
+            if (rate >= 3)
+            {
+                <span class="star" id="star3" style="color: yellow;">&#9733;</span>
+            }
+            else
+            {
+                <span class="star" id="star3" style="color: gray;">&#9733;</span>
+            }
+        }
+    </a>
+    <a asp-area="" asp-controller="Home" asp-action="rateCourse" asp-route-rating="4" asp-route-courseID="@id">
+        @{
+            if (rate >= 4)
+            {
+                <span class="star" id="star4" style="color: yellow;">&#9733;</span>
+            }
+            else
+            {
+                <span class="star" id="star4" style="color: gray;">&#9733;</span>
+            }
+        }
+    </a>
+    <a asp-area="" asp-controller="Home" asp-action="rateCourse" asp-route-rating="5" asp-route-courseID="@id">
+        @{
+            if (rate >= 5)
+            {
+                <span class="star" id="star5" style="color: yellow;">&#9733;</span>
+            }
+            else
+            {
+                <span class="star" id="star5" style="color: gray;">&#9733;</span>
+            }
+        }
+    </a>
+
+ </div>
+ </div>
+            </div>
+        </div>
+
+        <div class="col-2"></div>
+
+    </div>
+
+    @{
+        if (model.getAuthorID() == ViewBag.UserID)
+        {
+        <button onclick="showNewLessonForm()">Add lesson</button>
+        }
+    }
+    <div id="CoursesCurrentSection">
+        @{
+             foreach (var item in model.lessons)
+            {
+                 <div id="classesBox" class="CourseBlock">
+                     <a asp-area="" class="courseBlockLink" asp-controller="Home" asp-action="Lesson" asp-route-classID="@item.getID()">
+                         <span class="CourseBlockTag">@item.getTitle()</span>
+                     </a>
+
+                     <br />
+
+                    @if (model.getAuthorID() == ViewBag.UserID || ViewBag.UserID == 1)
+                    {
+                    <a asp-area="" asp-controller="Home" asp-action="deleteLesson" asp-route-lessonID="@item.getID()" asp-route-courseID="@id">
+                        <center><button style="font-size: 8px;">Delete</button></center>
+                    </a>
+
+                
+                    }
+                    <br />
+                </div>
+                     
+
+            }
+        }
+    </div>
+
+    </div>
+    @{
+
+        if (model.getAuthorID() == ViewBag.UserID || ViewBag.UserID == 1)
+    {
+        
+        <a asp-area="" asp-controller="Home" asp-action="deleteCourse" asp-route-courseID="@id">
+            <button>Delete course</button>
+        </a>
+    }
+}
+
+
+</body>
+</html>

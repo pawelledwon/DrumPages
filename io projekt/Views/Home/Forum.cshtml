@@ -1,0 +1,208 @@
+﻿@model (List<Tuple<Thread, List<Post>>>, List<Tuple<int, bool>>)
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drum Pages Forum</title>
+    <!-- Style CSS -->
+    <link rel="stylesheet" href="~/css/style.css">
+    <link rel="stylesheet" href="~/css/demo.css">
+    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css'>
+    <link rel="stylesheet" href="~/css/main_style.css">
+</head>
+<body>
+    <!--$%adsense%$-->
+    <main class="cd__main">
+        <!-- Start DEMO HTML (Use the following code into your project)-->
+        <div class="container">
+            @if (!string.IsNullOrEmpty(ViewBag.IsLoggedIn))
+            {
+                <div class="response-group">
+                    <header>
+                        <h2><strong>Create a new thread</strong></h2>
+                    </header>
+                    <div class="post-group">
+                        <div class="post">
+                            <form method="post" action="@Url.Action("AddThread", "Home")">
+                                <div class="form-group">
+                                    <label for="threadTitle">Thread Title:</label>
+                                    <input type="text" name="newThreadTheme" id="newThreadTheme" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="threadContent">Thread Content:</label>
+                                    <textarea name="threadContent" id="threadContent" style="width: 100%; min-height: 10em;" required></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="button button--confirm" style="margin-bottom: 10px;">Create Thread</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            }
+            <div class="response-group">
+                <header>
+                    <h2>
+                        <strong>Threads list</strong>
+                    </h2>
+                </header>
+                @{
+                    var listOfThreadsWithPosts = Model.Item1;
+                    var listOfThreadsUserRated = Model.Item2;
+                    int threadCounter = 0;
+                    var sortedModel = listOfThreadsWithPosts.OrderBy(thread => thread.Item1.getDate()).ToList();
+                }
+                @foreach (var threadData in sortedModel)
+                {
+                    threadCounter++;
+                    <div class="response">
+                        <div class="response__number">
+                            @threadCounter
+                        </div>
+                        <h1 class="response__title">
+                            @threadData.Item1.getTheme()
+                        </h1>
+                        <div class="post-group">
+                            @if (threadData.Item2 != null && threadData.Item2.Any())
+                            {
+                                
+                                (MainUser user, String msg) = MainUser.GetUserById(threadData.Item2[0].getUserID());
+                                int numberOfReplies = threadData.Item2.Count - 1;
+                                (String msg2, bool boolean, int positiveRatings, int negativeRatings) = Thread.GetThreadRatings(threadData.Item1.getID());
+
+                                <div class="post">
+                                                                     @* ZDJECIE AUTORA WPISU!!!!!!!!!!!!!!  *@
+                                    <div class="post__avatar post__avatar_place"><img src=@user.getImage() alt="Avatar" class="post__avatar"></div>
+                                    <h3 class="post__author">
+                                        @(user != null ? user.getName() : "Account Deleted")
+                                    </h3>
+                                    <h4 class="post__timestamp">
+                                        @threadData.Item2[0].getCreationDate()
+                                    </h4>
+                                    <p class="post__body">
+                                        @threadData.Item2[0].getContent()
+                                    </p>
+                                    <div class="post__actions">
+                                        @{
+                                            bool isLiked = false;
+                                            bool isDisliked = false;
+                                            foreach (var threadTuple in listOfThreadsUserRated){
+                                                int threadId = threadTuple.Item1;
+                                                bool threadRating = threadTuple.Item2;
+
+                                                if (threadId == threadData.Item1.getID()){
+                                                    if (threadRating == true)
+                                                    {
+                                                        isLiked = true;
+                                                    }
+                                                    else 
+                                                    {
+                                                        isDisliked = true;
+                                                    }
+                                                } 
+                                            }
+                                        }
+                                        <form id="approveForm_@threadCounter" asp-controller="Home" asp-action="addPositiveRatingForThread" method="post">
+                                            <div class="button button--approve @if (isLiked) { <text>active</text> }">
+                                                @positiveRatings
+                                                <button type="submit" name="threadId" value="@threadData.Item1.getID()" class="thumbBtn">
+                                                    <i class="fa fa-thumbs-up"></i><i class="fa fa-thumbs-up solid"></i>
+                                                </button>
+                                            </div>
+                                        </form>
+                                        <form id="denyForm_@threadCounter" asp-controller="Home" asp-action="addNegativeRatingForThread" method="post">
+                                            <div class="button button--deny @if (isDisliked) { <text>active</text> }">
+                                                @negativeRatings
+                                                <button type="submit" name="threadId" value="@threadData.Item1.getID()" class="thumbBtn">
+                                                    <i class="fa fa-thumbs-down"></i><i class="fa fa-thumbs-down solid"></i>
+                                                </button>
+                                            </div>
+                                        </form>
+
+                                        <div class="button button--fill comment-trigger">
+                                            <span>Comment...</span>
+                                        </div>
+                                        <div class="button button--flag">
+                                            <i class="fa fa-comment-o"></i><i class="fa fa-comment solid"></i>@numberOfReplies
+                                        </div>
+                                        <div class="post__comments">
+                                            <div class="comment-group">
+                                                @for (int i = 1; i < threadData.Item2.Count; i++) // Adjust the loop count as needed
+                                                {
+                                                    (MainUser user2, String msg3) = MainUser.GetUserById(threadData.Item2[i].getUserID()); 
+                                                    
+                                                    <div class="comment">
+                                                        <div class="comment__avatar">
+                                                           
+                                                        </div>
+                                                        <h3 class="comment__author">
+     
+                                                            @(user2 != null ? user2.getName() : "Account Deleted")
+                                                        </h3>
+                                                        <h4 class="comment__timestamp">
+                                                            @threadData.Item2[i].getCreationDate()
+                                                        </h4>
+                                                        <p class="comment__body">
+                                                            @threadData.Item2[i].getContent()
+                                                        </p>
+                                                    </div> 
+
+                                                }
+                                            </div>
+                                            <div class="comment-form">
+                                                <div class="comment-form__avatar">
+                                                    @{
+                                                        var currentUserIDvar = ViewBag.CurrentUserID;
+                                                        int currentUserID = 0;
+                                                        if (currentUserIDvar != null)
+                                                        {
+                                                            if (int.TryParse(currentUserIDvar.ToString(), out currentUserID))
+                                                            {
+                                                                // Parsing successful
+                                                                var xd = 0;
+                                                            }
+                                                        }
+                                                        
+                                                        (MainUser currentUser, String msg4) = MainUser.GetUserById(currentUserID);
+                                                    }
+                                                    @* ZDJECIE KOMENTUJACYCH!!!!!!!!!!!!!!  *@
+                                                    <img src=@(currentUser != null ? currentUser.getImage() : "/images/default.png") alt="Avatar" class="comment-form__avatar">
+                                                </div>
+                                                <form method="post" action="@Url.Action("AddPost", "Home")">
+                                                    @Html.Hidden("threadId", threadData.Item1.getID())
+                                                    <textarea name="newPostContent"></textarea>
+                                                    <div class="comment-form__actions">
+                                                        <div class="button button--light cancel">
+                                                            Cancel
+                                                        </div>
+                                                        @if (!string.IsNullOrEmpty(ViewBag.IsLoggedIn))
+                                                        {
+                                                            <button type="submit" class="button button--confirm">
+                                                                Comment
+                                                        </button>
+                                                        }
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <p>No posts found for this thread.</p>
+                            }
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </main>
+    <script src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    <script src="~/js/script.js"></script>
+</body>
+</html>

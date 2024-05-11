@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/css/main_style.css">
+</head>
+<body>
+    <div class="row content welcome_content eventBtn">
+        <div class="col-1"></div>
+        <div class="col-10">
+
+        @*  Show add new event button only when pro is logged *@
+        @if (!string.IsNullOrEmpty(ViewBag.IsLoggedIn) && (ViewBag.IsLoggedIn == "Pro" || ViewBag.IsLoggedIn == "Admin"))
+        {
+            Console.WriteLine(ViewBag.IsLoggedIn);
+            <button onclick="document.getElementById('id03').style.display='block'">ADD NEW EVENT</button>
+        }
+            
+        </div>
+        <div class="col-1"></div>
+    </div>
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="content welcome_content col-8">
+                @foreach (var item in Event.GetAllEvents())
+                {
+                    <div class="selection_box">
+                        <!-- Tutaj będą wyświetlane wydarzenia z kontrolera -->
+                        <br>
+                        <div class="eventName">@item.getName()</div>
+                        <div class="eventDetail">
+                            @item.getDate()
+                            <br>
+                            @item.getPlace()
+                        </div>
+                        @item.getDescription()
+                    </div>
+                }
+        </div>
+    </div>
+
+
+    <div id="id03" class="modal">
+        <span onclick="document.getElementById('id03').style.display='none'"
+              class="close" title="Close Modal">&times;</span>
+
+        <!-- Modal Content -->
+        <form class="modal-content animate register_form row" method="post" action="@Url.Action("AddEvent", "Home")">
+            <div class="col-2"></div>
+
+            <div class="container col-8">
+                <div class="row centered_container">
+                    <div class="col-6 form_fields">
+                        <label for="Event_name"><b>Event name</b></label><br>
+                        <input type="text" placeholder="Add event's name" name="Event_name" id="Event_name" required><br><br>
+                        <label for="Event_date"><b>Event date</b></label><br>
+                        <input type="date" name="Event_date" id="Event_date" required><br><br>
+                        <label for="Event_description"><b>Event description</b></label><br>
+                        <input type="text" placeholder="Add event's description" name="Event_description" id="Event_description" required><br><br>
+                        <label for="Event_location"><b>Event location</b></label><br>
+                        <input type="text" placeholder="Add event's location" name="Event_location" id="Event_location" required><br><br>
+                        <label for="Event_creator"><b>Event creator</b></label><br>
+                        <input type="text" placeholder="Add event's creator" name="Event_creator" id="Event_creator" required><br><br>
+                        <button type="submit" class="cancelbtn formBtn">Add Event</button><br><br>
+                        <button type="button" onclick="document.getElementById('id03').style.display='none'" class="cancelbtn formBtn">Cancel</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2"></div>
+        </form>
+    </div>
+
+
+    <div class="col-2"></div>
+</body>
+</html>

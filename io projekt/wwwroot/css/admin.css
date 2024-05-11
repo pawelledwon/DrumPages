@@ -1,0 +1,283 @@
+/* Main CSS Here */
+
+@import url('https://fonts.googleapis.com/css2?family=Allura&family=Lato&display=swap');
+
+* { 
+	margin: 0; 
+	padding: 0; 
+	box-sizing: border-box; 
+	font-family: 'Lato', sans-serif;
+}
+
+:root
+{
+    --main-color: #ffffff;
+    --main-color-shaded: #dddddd;
+    --aux-color: #ff9b05;
+    --main-text-color: #000000;
+    --aux-text-color: #ffffff;
+    --aux-color-shaded: #dd7903;
+    --main-border-color: #777777;
+}
+
+body 
+{ 
+	background-color: var(--main-color); 
+	color: var(--main-text-color);
+} 
+
+.main-container
+{ 
+	margin-top: 2vh; 
+}
+
+.nav { 
+	max-width: 250px; 
+	min-width: 200px;
+	background-color: var(--background-color2); 
+	box-shadow: 1px 1px 10px var(--main-border-color); 
+	display: flex; 
+	flex-direction: column; 
+	justify-content: space-between; 
+	overflow: hidden; 
+	padding: 30px 0 20px 10px; 
+	border-radius: 0% 5% 5% 0%;
+} 
+
+.navcontainer
+{ 
+	position: fixed; 
+	padding: 0px !important;
+	top: 18vh; 
+	left: 0px; 
+} 
+
+.nav-option
+{ 
+	width: 90%; 
+	height: 5vh; 
+	display: flex; 
+	align-items: center; 
+	padding: 0 12% 0 8%; 
+	gap: 10%; 
+	transition: all 0.1s ease-in-out; 
+} 
+
+.nav-option:hover
+{ 
+	border-left: 5px solid var(--aux-color); 
+	background-color: var(--main-color-shaded); 
+	cursor: pointer; 
+} 
+
+.nav-img
+{ 
+	height: 70%; 
+} 
+
+.nav-upper-options
+{ 
+	display: flex; 
+	flex-direction: column; 
+	align-items: stretch; 
+	gap: 30px; 
+} 
+
+.option1 { 
+	border-left: 5px solid var(--aux-color-shaded); 
+	background-color: var(--aux-color); 
+	color: white; 
+	cursor: pointer; 
+} 
+
+.option1:hover
+{ 
+	border-left: 5px solid var(--aux-color-shaded); 
+	background-color: var(--aux-color); 
+} 
+
+.boxRow
+{
+	margin-top: 2vh;
+}
+
+.box
+{ 
+	height: 12vh; 
+	width: 230px; 
+	border-radius: 20px; 
+	box-shadow: 3px 3px 10px var(--main-border-color); 
+	padding: 20px; 
+	display: flex; 
+	align-items: center; 
+	justify-content: space-around; 
+	cursor: pointer; 
+	transition: transform 0.3s ease-in-out; 
+	background-color: var(--aux-color); 
+	color: var(--aux-text-color);
+} 
+
+.box:hover
+{ 
+	transform: scale(1.08); 
+} 
+
+.box img
+{ 
+	height: 5vh; 
+} 
+
+.topic
+{ 
+	font-size: 16px; 
+	font-weight: bold;
+	letter-spacing: 1px; 
+	margin-left: 10px;
+} 
+
+.topic-heading
+{ 
+	font-size: 40px; 
+	letter-spacing: 3px; 
+	font-weight: bold;
+} 
+
+.report-container
+{ 
+	border-radius: 30px; 
+	box-shadow: 3px 3px 10px var(--main-border-color); 
+} 
+
+.profile-settings{
+	width: 100%; 
+	display: flex; 
+	justify-content: space-between; 
+	align-items: center; 
+}
+
+.report-header
+{ 
+	min-height: 80px; 
+	width: 100%; 
+	display: flex; 
+	align-items: center; 
+	justify-content: space-between; 
+	padding: 20px 20px 10px 20px; 
+	border-bottom: 2px solid var(--aux-color); 
+} 
+
+.recent-Posts
+{ 
+	font-size: 30px; 
+	font-weight: 600; 
+	color: var(--aux-color); 
+} 
+
+.view
+{ 
+	height: 35px; 
+	width: 90px; 
+	border-radius: 8px; 
+	background-color: var(--aux-color); 
+	color: var(--aux-text-color); 
+	font-size: 15px; 
+	border: none; 
+	cursor: pointer; 
+} 
+
+.report-body
+{ 
+	padding: 20px; 
+}
+
+.report-topic-heading,
+.item1
+{
+	width: 100%;
+	justify-content: space-between;
+	align-items: center;
+	border-bottom: 1px solid var(--main-border-color);
+} 
+
+.t-op
+{ 
+	font-size: min(24px, 1.5vw); 
+	letter-spacing: 0px; 
+} 
+
+.items
+{ 
+	width: 100%; 
+	margin-top: 15px; 
+} 
+
+.item1
+{ 
+	margin-top: 10px; 
+	padding-bottom: 10px;
+	border-bottom: 1px solid var(--main-border-color);
+} 
+
+.t-op-nextlvl
+{ 
+	font-size: min(14px, 1.3vw); 
+	letter-spacing: 0px; 
+	font-weight: bold; 
+} 
+
+.label-tag
+{ 
+	width: 100%; 
+	text-align: center; 
+	background-color: rgb(0, 177, 0); 
+	color: var(--aux-text-color); 
+	border-radius: 4px; 
+}
+
+.row::after
+{
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.col-1 {width: 8.33%;}
+.col-2 {width: 16.66%;}
+.col-3 {width: 25%;}
+.col-4 {width: 33.33%;}
+.col-5 {width: 41.66%;}
+.col-6 {width: 50%;}
+.col-7 {width: 58.33%;}
+.col-8 {width: 66.66%;}
+.col-9 {width: 75%;}
+.col-10 {width: 83.33%;}
+.col-11 {width: 91.66%;}
+.col-12 {width: 100%;}
+
+[class*="col-"]
+{
+    float: left;
+    padding: 15px;
+}
+
+@media only screen and (max-width: 768px)
+{
+    /* For mobile phones: */
+    [class*="col-"] {
+      width: 100%;
+    }
+
+	.navcontainer
+	{
+		position: relative;
+		top: 10px;
+		padding: 10px !important;
+	}
+
+	.nav
+	{
+		border-radius: 5%;
+		width: 100%;
+		max-width: 100%;
+	}
+}

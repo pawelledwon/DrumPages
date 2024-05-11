@@ -1,0 +1,228 @@
+@model MainUser
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="~/css/main_style.css">
+    <style>
+
+        .edit-button {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+            .edit-button button {
+                background-color: #808080;
+                border: none;
+                color: white;
+                padding: 15px 32px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 4px 2px;
+                cursor: pointer;
+                border-radius: 12px;
+            }
+
+                .edit-button button:hover {
+                    background-color: #FFA500;
+                }
+
+        .confirm-button {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+            .confirm-button button {
+                background-color: #808080;
+                border: none;
+                color: white;
+                padding: 15px 32px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 4px 2px;
+                cursor: pointer;
+                border-radius: 12px;
+            }
+
+                .confirm-button button:hover {
+                    background-color: #FFA500;
+                }
+        
+        .hidden {
+            display: none;
+        }
+
+        .edit-inputs {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="user-profile">
+        <div class="container">
+            <div class="row">
+                <div>
+                    <div>
+                        <br>
+                        @{
+                            MainUser currentUser = Model;
+                            var userStyles = Misc.GetUserStyle(currentUser.getId());
+                            var userGears = Misc.GetUserGear(currentUser.getId());
+                            string styleString = "";
+                            string gearString = "";
+
+                            foreach (var style in userStyles)
+                            {
+                                styleString += style.NAME;
+                                styleString += ", ";
+                            }
+                            foreach (var gear in userGears)
+                            {
+                                gearString += gear.NAME;
+                                gearString += ", ";
+                            }
+                        }
+                        <div style="text-align: center;">
+                            @if (!Misc.hasAllSet(currentUser.getId()))
+                            {
+                                <h3>Warning: No Gear or Style has been set</h3>
+                            }
+                            <h3>User Profile</h3>
+                        </div>
+                        <div>
+                            <h3><i></i>General Information</h3>
+                        </div>
+                        <div class="user-details">
+                            <strong>
+                                
+                                <img src=@currentUser.getImage() alt="Italian Trulli" style="width: 70%; border-radius: 50%;">
+                                <p>Name: <span class="name">@currentUser.getName()</span></p>
+                                <p>Surname: <span class="surname">@currentUser.getLastName()</span></p>
+                                <p>Age: <span class="age">@currentUser.getAge()</span></p>
+                                <p>Advancement level: <span class="skill">@currentUser.getSkills()</span></p>
+                                <p>Style: <span class="style">@styleString</span></p>
+                                <p>Gear: <span class="gear">@gearString</span></p>
+                                <p>E-mail address: <span class="email">@currentUser.getEmial()</span></p>
+                                
+                            </strong>
+                        </div>
+                    </div>
+                    <div class="edit-button">
+
+                        <button id="editProfileButton">Edit Profile</button>
+                        <form method="post" action="@Url.Action("EditProfile", "Home")">
+                            <div class="edit-inputs hidden">
+                                <input type="text" name="name" class="name" value="@currentUser.getName()" /><br />
+                                <input type="text" name="surname" class="surname" value="@currentUser.getLastName()" /><br />
+                                <input type="text" name="age" class="age" value="@currentUser.getAge()" /><br />
+                                <br />
+                                <label for="skill"><b>Skill level <br />(1 - beginner, 5 - advanced)</b></label><br>
+                                <select name="skill" id="skill" multiple>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                                <br /><br />
+                                <label for="style"><b>Style</b></label><br>
+                                
+                                <select name="style" id="style" multiple>
+                                    @{
+                                        var styles = Misc.GetAllStyles();
+                                    }
+                                    @foreach(var style in styles)
+                                    {
+                                        <option value=@style.ID>@style.NAME</option>
+                                    }
+                                    <option value=RESET>Reset chosen styles</option>
+                                </select>
+                                <br /><br />
+                                <label for="gear"><b>Gear</b></label><br>
+                                <select name="gear" id="gear" multiple>
+                                    @{
+                                        var gears = Misc.GetAllGear();
+                                    }
+                                    @foreach (var gear in gears)
+                                    {
+                                        <option value=@gear.ID>@gear.NAME</option>
+                                    }
+                                    <option value=RESET>Reset chosen gear</option>
+                                </select>
+                                <br /><br />
+                                <input type="text" name="email" class="email" value="@currentUser.getEmial()" /><br /><br />
+                                <input type="password" name="password" class="password" value="@currentUser.getPassword()" /><br />
+
+
+                            </div>
+                        
+                                <div class="confirm-button hidden">
+                                    <button type = "submit" id="confirmProfileChanges">Confirm changes</button>
+                                </div>
+                        </form>
+
+                       @*  DODANIE ZDJECIA PROFILOWEGO *@
+                        <form id="uploadForm" method="post" enctype="multipart/form-data">
+                            <!-- Inne pola formularza -->
+
+                            <div>
+                                <label for="fileInput">Select Profile Picture:</label>
+                                <input type="file" id="fileInput" name="fileInput" accept="image/*">
+                            </div>
+
+                            <button type="button" onclick="uploadImage()">Upload Image</button>
+                        </form>
+                        <script>
+                            function uploadImage() {
+                                var fileInput = document.getElementById('fileInput');
+                                var selectedFile = fileInput.files[0];
+
+                                var formData = new FormData();
+                                formData.append('fileInput', selectedFile);
+
+                                fetch('/Home/AddImage', {
+                                    method: 'POST',
+                                    body: formData,
+                                })
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        // Obs³u¿ odpowiedŸ po stronie klienta, jeœli to konieczne
+                                        console.log(data);
+                                        if (data.success) {
+                                            // Przekieruj do strony Index
+                                            window.location.href = '/Home/Profile';
+                                        }
+                                    })
+                                    .catch(error => console.error('Error:', error));
+                            }
+
+
+                        </script>
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var editButton = document.getElementById("editProfileButton");
+            var editInputs = document.querySelector(".edit-inputs");
+            var confirmButton = document.querySelector(".confirm-button");
+
+            editButton.addEventListener("click", function () {
+                editInputs.classList.toggle("hidden");
+                confirmButton.classList.toggle("hidden");
+            });
+        });
+    </script>
+
+</body>
+</html>

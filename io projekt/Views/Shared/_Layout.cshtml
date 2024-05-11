@@ -1,0 +1,98 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Drum Pages</title>
+    
+    <style>
+        /*.profile-button {
+            position: absolute;
+            top: 10px;
+            right: 60px;
+            cursor: pointer;
+        }
+
+            .profile-button img {
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+            }*/
+    </style>
+    
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+        <div class="header-text">DRUM PAGES</div>
+        
+        <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+            <ul class="navbar-nav flex-grow-1">
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Courses">Courses</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Forum">Forum</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Events">Events</a>
+                </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="SearchProfile">Search User</a>
+                    </li>
+
+                    
+                    @if (!string.IsNullOrEmpty(ViewBag.IsLoggedIn) && ViewBag.IsLoggedIn == "Admin")
+                    {
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="AdminPanel">Panel admina</a>
+                    </li>
+                    }
+
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                </li>
+                    @if (!string.IsNullOrEmpty(ViewBag.IsLoggedIn))
+                    {
+                    <li class="nav-item">
+                        <a class="nav-link profile-button" href="@Url.Action("Profile", "Home", new { area = "" })">
+                                Profile<!--<img src=@MainUser.GetUserById((int)ViewBag.CurrentUserID).user.getImage() alt="Profile" />
+                                @if (!Misc.hasAllSet((int)ViewBag.CurrentUserID))
+                                {
+                                    <img src="~/images/warning.png" alt="War" />
+                                }    
+                           @* <img src="~/images/user_icon.png" alt="Profile" /> *@-->
+                        </a>
+                    </li>
+                    }
+                </ul>
+                
+        </div>
+            <div class="header-text">@ViewBag.CurrentSite</div>
+
+    </div>
+
+
+
+    </div>
+   
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <!--<footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2023 - io_projekt - Wszystkie prawa zastrzeżone
+        </div>
+    </footer>-->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

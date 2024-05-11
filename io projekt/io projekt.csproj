@@ -1,0 +1,42 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>io_projekt</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Views\Nowy folder\**" />
+    <Compile Remove="wwwroot\user_icon\**" />
+    <Content Remove="Views\Nowy folder\**" />
+    <Content Remove="wwwroot\user_icon\**" />
+    <EmbeddedResource Remove="Views\Nowy folder\**" />
+    <EmbeddedResource Remove="wwwroot\user_icon\**" />
+    <None Remove="Views\Nowy folder\**" />
+    <None Remove="wwwroot\user_icon\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Views\Home\Index1.cshtml.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Views\Home\Index1.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\css\responsive.css" />
+    <None Include="wwwroot\js\JavaAdmin.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\Nowy folder\" />
+  </ItemGroup>
+
+</Project>

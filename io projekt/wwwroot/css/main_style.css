@@ -1,0 +1,391 @@
+/* Author: MT */
+@import url('https://fonts.googleapis.com/css2?family=Allura&family=Lato&display=swap');
+
+:root
+{
+    --main-color: #ffffff;
+    --main-color-shaded: #dddddd;
+    --aux-color: #ff9b05;
+    --main-text-color: #000000;
+    --aux-text-color: #ffffff;
+    --aux-color-shaded: #dd7903;
+    --main-border-color: #777777;
+}
+
+*
+{
+    box-sizing: border-box;
+}
+
+body
+{
+    font-family: 'Lato', sans-serif;
+    font-size: 16px;
+    margin: 0px;
+    padding: 0px;
+    color: var(--main-text-color);
+    background-color: var(--main-color);
+}
+
+a
+{
+    color: var(--aux-color);
+    text-decoration: none;
+}
+
+button
+{
+    font-size: 22px;
+    color: var(--aux-text-color);
+    background-color: var(--aux-color);
+    border-radius: 10em;
+    border-color: var(--main-border-color);
+    border-width: 2px;
+    text-align: center;
+    width: 50%;
+    cursor: pointer;
+    transition: background-color 0.5s;
+}
+
+button:hover
+{
+    background-color: var(--aux-color-shaded);
+    transition: background-color 0.5s;
+}
+
+.header
+{
+    background-color: var(--aux-color);
+    color: var(--aux-text-color);
+    font-size: 22px;
+    font-weight: bold;
+    text-align: center;
+    min-height: 7vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0 0 7vh 7vh;
+	box-shadow: 1px 1px 15px var(--aux-color-shaded); 
+    width: 100%;
+}
+
+ul
+{
+    list-style-type: none;
+    padding: 0px;
+}
+
+.headerPage
+{
+    font-size: 16px;
+}
+
+.header-text
+{
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.content
+{
+    margin-top: 2vh;
+}
+
+.welcome_content
+{
+    text-align: center;
+}
+
+.highlight
+{
+    font-weight: bold;
+    font-size: 22px;
+}
+
+.login_form
+{
+    border-radius: 2em;
+    display: flex;
+    height: 25vh;
+    justify-content: center;
+    align-items: center;
+    width: 60vw;
+}
+
+.register_form
+{
+    border-radius: 2em;
+    display: flex;
+    height: 50vh;
+    justify-content: center;
+    align-items: center;
+    width: 60vw;
+}
+
+.centered_container
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.formBtn
+{
+    width: 100%;
+}
+
+.form_fields
+{
+    text-align: center;
+}
+
+.selection_box
+{
+    border-radius: 2em;
+    margin-top: 1em;
+    border: 4px solid var(--aux-color);
+	box-shadow: 1px 1px 10px var(--aux-color-shaded); 
+    padding: 20px;
+    padding-top: 0px;
+    text-align: justify;
+}
+
+.eventName
+{
+    font-weight: bold;
+    font-size: 28px;
+    margin-top: 20px;
+    width: 100%;
+    border-bottom: 2px solid var(--aux-color);
+    padding-bottom: 30px;
+    text-align: center;
+}
+
+.eventDetail
+{
+    font-weight: bold;
+    font-size: 18px;
+    width: 100%;
+    padding: 10px;
+    border-bottom: 2px solid var(--aux-color);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.eventBtn
+{
+    margin-top: 30px;
+}
+
+.user-profile
+{
+    border-radius: 35px;
+    margin-left: 35vw;
+    margin-right: 35vw;
+    margin-top: 30px;
+    padding-bottom: 15px;
+    padding-left: 20px;
+    padding-right: 20px;
+    background-color: var(--main-color);
+    border: 5px solid var(--aux-color);
+    color: var(--main-text-color);
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    flex-direction: column; /* Stack items vertically */
+}
+
+.profileInfo
+{
+    border-bottom: 1px solid var(--main-border-color);
+}
+
+.searchData {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 300px; /* Adjust width as needed */
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.search-button
+{
+    width: 100%;
+}
+
+#searchButton
+{
+    width: 100%;
+}
+
+.form-group
+{
+    margin-bottom: 10px;
+}
+
+.row::after
+{
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.col-1 {width: 8.33%;}
+.col-2 {width: 16.66%;}
+.col-3 {width: 25%;}
+.col-4 {width: 33.33%;}
+.col-5 {width: 41.66%;}
+.col-6 {width: 50%;}
+.col-7 {width: 58.33%;}
+.col-8 {width: 66.66%;}
+.col-9 {width: 75%;}
+.col-10 {width: 83.33%;}
+.col-11 {width: 91.66%;}
+.col-12 {width: 100%;}
+
+[class*="col-"]
+{
+    float: left;
+    padding: 15px;
+}
+
+.nav-item
+{
+    border-left: 2px solid var(--aux-color-shaded);
+    text-align: center;
+    display: block;
+    margin: 0px !important;
+    width: 16.67%;
+    font-size: min(0.957vw, 18px);
+    transition: background-color 0.3s ease 0s;
+}
+
+.nav-item:last-child
+{
+    border-right: 2px solid var(--aux-color-shaded);
+}
+
+.header-content
+{
+    width: 80%;
+}
+
+.nav-item:hover
+{
+    background-color: var(--aux-color-shaded);
+    transition: background-color 0.5s ease 0s;
+}
+
+@media only screen and (max-width: 768px)
+{
+    /* For mobile phones: */
+    [class*="col-"] {
+      width: 100%;
+    }
+
+    .nav-item
+    {
+        border-right: 2px solid var(--main-border-color);
+        border-left: 2px solid var(--main-border-color);
+        margin-bottom: 5px !important;
+        background-color: var(--aux-color-shaded);
+        width: 100%;
+        font-size: 18px;
+    }
+
+    .nav-item:last-child
+    {
+        border-right: 2px solid var(--main-border-color);
+    }
+
+    .navbar-nav
+    {
+        align-items: center;
+    }
+}
+
+/* Author: KB */
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  padding-top: 60px;
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 5px auto; /* 15% from the top and centered */
+}
+
+/* The Close Button */
+.close {
+  /* Position it in the top right corner outside of the modal */
+  position: absolute;
+  right: 25px;
+  top: 0;
+  color: #000;
+  font-size: 35px;
+  font-weight: bold;
+}
+
+/* Close button on hover */
+.close:hover,
+.close:focus {
+  color: red;
+  cursor: pointer;
+}
+
+/* Add Zoom Animation */
+.animate {
+  -webkit-animation: animatezoom 0.6s;
+  animation: animatezoom 0.6s
+}
+
+@-webkit-keyframes animatezoom {
+  from {-webkit-transform: scale(0)}
+  to {-webkit-transform: scale(1)}
+}
+
+@keyframes animatezoom {
+  from {transform: scale(0)}
+  to {transform: scale(1)}
+}
+
+.navbar-nav {
+    display: flex;
+    justify-content: space-around;
+    margin: 10px 0px 10px 0px;
+}
+
+.nav-link {
+    display: block;
+    padding: 0.5rem 1rem;
+    color: var(--main-text-color); /* Use black color for font */
+    text-decoration: none;
+}
+
+/* Change font color of navbar items */
+.navbar-nav .nav-link {
+    color: #ffffff; /* Change font color to white */
+}
+
+/* Responsive Design */
+@media only screen and (max-width: 768px) {
+
+    .navbar-nav {
+        flex-direction: column;
+    }
+}
+

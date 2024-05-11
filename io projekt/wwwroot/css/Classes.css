@@ -1,0 +1,164 @@
+﻿/* Author: MT */
+
+:root
+{
+    --main-color: #ffffff;
+    --main-color-shaded: #dddddd;
+    --aux-color: #ff9b05;
+    --main-text-color: #000000;
+    --aux-text-color: #ffffff;
+    --aux-color-shaded: #dd7903;
+    --main-border-color: #777777;
+}
+
+.courseDescriptionBlock
+{
+    border: 5px solid var(--aux-color);
+    border-radius: 20px;
+	box-shadow: 1px 1px 15px var(--aux-color-shaded); 
+    padding: 20px;
+    min-height: 25vh;
+    margin-top: 2vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.courseDescriptionBold
+{
+    font-weight: bold;
+}
+
+.courseDescriptionField
+{
+    width: 50% !important;
+}
+
+.courseDescriptionSpacing
+{
+    justify-content: flex-start !important;
+}
+
+.courseDescriptionTitle
+{
+    color: var(--aux-color);
+    font-weight: bold;
+    border-bottom: 1px solid var(--aux-color);
+    font-size: 28px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+.courseDescription
+{
+    font-size: 1.5vw;
+}
+
+.courseBlockLink
+{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    top: 0px;
+    white-space: break-spaces;
+    padding: 5px;
+}
+.lessonText {
+    border: 4px solid var(--aux-color);
+    box-shadow: 1px 1px 5px var(--aux-color-shaded);
+    border-radius: 20px;
+    text-align: justify;
+    line-height: 1.5;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+.lessonVid {
+    border: 4px solid var(--aux-color);
+    box-shadow: 1px 1px 5px var(--aux-color-shaded);
+    border-radius: 10px;
+}
+
+.lessonRow
+{
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+@media only screen and (max-width: 768px)
+{
+    /* For mobile phones: */
+    .courseDescription
+    {
+        font-size: 28px;
+    }
+
+    .lessonVid
+    {
+        position: relative;
+        right: 0px;
+        margin-top: 30px;
+    }
+}
+
+/* autor MacB, adjustments MT */
+/* Kursy */
+
+#CoursesCurrentSection
+{
+    width: 100%;
+    height: 25vh;
+    padding: 0px 10px 0px 10px;
+    border-top: 2px solid var(--aux-color);
+    border-bottom: 2px solid var(--aux-color);
+    clear: both;
+    overflow-y: hidden;
+    overflow-x: auto;
+    float: left;
+    margin-bottom: 30px;
+    white-space: nowrap;
+}
+
+.CourseBlock
+{
+    width: 100px;
+    height: 180px;
+    background: var(--aux-color);
+    display: inline-block;
+    box-sizing: border-box;
+    margin: 20px 10px 0px 10px;
+    border-radius: 10px;
+    font-weight: 650;
+    letter-spacing: 1pt;
+    transition: background-color 0.3s ease-out 0s;
+}
+
+.CourseBlock:hover
+{
+    cursor: pointer;
+    background: var(--aux-color-shaded);
+    transition: background 0.2s;
+    border-radius: 10px;
+    transition: background-color 0.5s ease-out 0s;
+}
+
+.CourseBlockTag
+{
+    color: var(--aux-text-color) !important;
+    word-break: break-word;
+}
+
+.stars {
+    display: inline-block;
+    font-size: 30px;
+}
+
+ .star {
+     cursor: pointer;
+ }
+
+    .star:hover ~ .star,
+    .star:hover {
+        color: yellow;
+    }

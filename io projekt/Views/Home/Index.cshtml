@@ -1,0 +1,312 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/css/main_style.css">
+</head>
+<body>
+   @if (!string.IsNullOrEmpty(ViewBag.IsLoggedIn))
+    {
+        <!--<div class="header">
+            <span class="header-text">DRUM PAGES<span class="headerPage"><br>Welcome back! @ViewBag.UserName</span></span>
+            </div> -->
+    }
+    else
+    {
+        <!--<div class="header"><span class="header-text">DRUM PAGES<span class="headerPage"><br>Welcome!</span></span></div>-->
+    }
+
+    <div class="row content welcome_content">
+
+
+        <div class="col-2"></div>
+        <div class="col-8">
+            <p class="highlight">
+                <b>
+                    During almost every concert, a drummer is a necessity for almost all bands, because the music notes wouldn't be the same without his help.
+                    Despite that, many future musicians focus on other instruments and overlook the magnificent opportunity of career growth given by the drums.
+                </b>
+                <br>
+            </p>
+            <p3>
+                <br>
+                <br>
+                Drum pages is the first of its kind website dedicated to all people passionate with music, who have a particular interest in drums. It has been made as a project in order
+                to gather together all drum lovers and help them expand their opportunities. In here you will be able to share your passion with others and learn new ideas related to this topic.
+                <br>
+                <br>
+                <br>
+                Thanks to our collaboration with professional drummers from the entire world you too can learn how to play like a pro with our lessons available to everyone for free.
+                <br>
+            </p3>
+            
+            <!-- Button to open the modal login form -->
+            <br><br>
+
+            @if (!string.IsNullOrEmpty(ViewBag.IsLoggedIn))
+            {
+                //JEST ZALOGOWANY
+                Console.WriteLine("UKRYJ REJESTRACJE");
+                Console.WriteLine("POKAZ WYLOGUJ");
+                @using (Html.BeginForm("LogOut", "Home", FormMethod.Post))
+                {               
+                        <button id="logoutBtn" onclick="hideLoginRegisterButtons()">Log Out</button>
+                }             
+            }
+            else
+            {
+                //NIE JEST ZALOGOWANY
+                Console.WriteLine("POKAZ REJESTRACJE");
+                Console.WriteLine("UKRYJ WYLOGUJ");
+                <button id="loginBtn" onclick="document.getElementById('id_1').style.display='block'">LOG IN</button><br><br>
+                <button id="registerBtn" onclick="document.getElementById('id_2').style.display='block'">REGISTER</button>
+            }
+        </div>
+        <div class="col-2"></div>
+    </div>
+
+    <!-- The Modal for Login -->
+    <div id="id_1" class="modal">
+        <span onclick="document.getElementById('id_1').style.display='none'"
+              class="close" title="Close Form">&times;</span>
+
+        <!-- Modal Content -->
+        <form class="login_form modal-content animate">
+            <div class="col-2"></div>
+
+            <div class="container col-8">
+                <div class="row centered_container">
+                    <div class="col-6 form_fields">
+                        <label for="uname"><b>Username</b></label><br><br>
+                        <input type="text" placeholder="Enter Username" name="uname" id="uname" required><br><br><br />
+                        <label>
+                            <input type="checkbox" name="remember" id="remeber"> Remember me
+                        </label>
+                        <br><br>
+                        <button type="button" class="LoginInto" id="finalloginbtn">Login</button>
+                    </div>
+                    <div class="col-6 form_fields">
+                        <label for="psw"><b>Password</b></label><br><br>
+                        <input type="password" placeholder="Enter Password" name="psw" id="psw" required><br><br>
+                        <div id="addLogin">Forgot password?</div>
+                        <span id="forgotPasswordLink">Reset <a href="#">password</a></span><br><br>
+                        <button type="button" onclick="document.getElementById('id_1').style.display='none'" class="Login_cancel">Cancel</button>
+                    </div>                   
+                </div>
+            </div>
+            <script>
+                var unameInput = document.getElementById('uname');
+                var password = document.getElementById('psw');
+                var remepber = document.getElementById('remeber');
+                var passwordLink = document.getElementById('forgotPasswordLink');
+                var label = document.getElementById('addLogin');
+                var finallog = document.getElementById('finalloginbtn');
+                var firstRegBtn = document.getElementById('registerBtn');
+
+                passwordLink.disabled = true;
+                unameInput.addEventListener('input', function () {       
+                    if (unameInput.value.trim() === '') {
+                        label.style.display = "block";
+                        passwordLink.style.display = "none";
+                        console.log('JEST PUSTE');
+                    }
+                    else {
+                        label.style.display = "none";
+                        passwordLink.style.display = "block";
+                    }
+                });
+
+                passwordLink.addEventListener('click', function () {
+                    var username = document.getElementById('uname').value;
+                    
+                    fetch('/Home/ForgotPassword', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: 'user=' + encodeURIComponent(username)
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.mess){
+                                alert(data.mess);
+                            }            
+                        })
+                        .catch(error => console.error('Error:', error));
+                });
+
+                finallog.addEventListener('click', function () {
+
+                    var formData = new FormData();
+                    formData.append('uname', unameInput.value);
+                    formData.append('psw', password.value);
+                    formData.append('remember', remepber.value);
+                    console.log(unameInput.value);
+
+                    var unameValue = encodeURIComponent(unameInput.value);
+                    var pswValue = encodeURIComponent(password.value);
+                    var rememberValue = encodeURIComponent(remepber.value);
+                    var body = 'uname=' + unameValue + '&psw=' + pswValue + '&remember=' + rememberValue;
+
+                    fetch('/Home/Login', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: body
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                           // UKRYWANIE PRZYCISKOW
+                            if (data.mess) {
+                               alert(data.mess);
+                                if (data.mess === 'Welcome boss') { 
+                                    window.location.href = '/Home/AdminPanel';
+                                    registerBtn.style.display = 'none';
+                                }
+                                else if (data.mess === 'Login correctly') {
+                                    window.location.href = '/Home/Index';
+                                    registerBtn.style.display = 'none';
+                                }
+                            }
+                        })
+                        .catch(error => console.error('Error:', error));
+                });
+            </script>
+
+            <div class="col-2"></div>
+        </form>
+    </div>
+
+    <!-- The Modal for Registration -->
+    <div id="id_2" class="modal">
+        <span onclick="document.getElementById('id_2').style.display='none'"
+              class="close" title="Close Form">&times;</span>
+
+        <!-- Modal Content -->
+        <form class="modal-content animate register_form row" method="post" action="/Home/Register">
+            <div class="col-2"></div>
+
+            <div class="container col-8">
+                <div class="row centered_container">
+                    <div class="col-12 form_fields">
+                        <div class="row">
+                            <div class="col-6">
+                                <label for="name"><b>Name</b></label><br>
+                                <input type="text" placeholder="Enter Your name" name="name" id="name" autocomplete="on" required><br><br>
+                                <label for="surname"><b>Last Name</b></label><br>
+                                <input type="text" placeholder="Enter Your last name" name="surname" id="surname" required><br><br>
+                                <label for="email"><b>Email</b></label><br>
+                                <input type="email" placeholder="Email" name="email" id="email" autocomplete="on" required><br><br>
+                                <label for="regname"><b>Age</b></label><br>
+                                <input type="number" placeholder=" age" name="age" id="age" min="1" max="1000000" required><br><br>
+
+                                <label for="regname"><b>Account type</b></label><br>
+                                <select name="accountType" id="accountType" multiple>
+                                    <option value="Amator">Casual</option>
+                                    <option value="NPro">Pro</option>
+                                </select>
+                                <br />
+                            </div>
+                            <div class="col-6">
+                                <label for="regname"><b>Skill level <br />(1 - beginner, 5 - advanced)</b></label><br>
+                                <select name="skill" id="skill" multiple>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                                <br /><br />
+
+                                <label for="regname"><b>Login</b></label><br>
+                                <input type="text" placeholder="Enter Your login" name="regname" id="regname" required><br><br>
+                                <label for="regpass"><b>Hasło</b></label><br>
+                                <input type="password" placeholder="Enter Your password" name="regpass" id="regpass" required oninput="check()"><br><br><br>
+                                <button type="submit" class="cancelbtn formBtn" id="regbtn">Register</button>
+                            </div>
+                        </div>
+                    </div>
+                    @* WALIDACJA HASLA *@
+                   <div>
+                        <div id="logincheck"><span></span> </div>
+                        <div id="passVal"> <span>Password requirements:</span> </div>
+                        <div id="check0">  <span>Length more than 5</span> </div>
+                        <div id="check1">  <span>Contains numerical character</span> </div>
+                        <div id="check2">  <span>Contains special character</span> </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2"></div>
+            <script>
+                function check(){
+                var passInput = document.getElementById('regpass').value;
+                var passLength = passInput.length;
+                var button = document.getElementById('regbtn');
+                var ch0 = document.getElementById('check0');
+                var ch1 = document.getElementById('check1');
+                var ch2 = document.getElementById('check2');
+       
+                    if (passLength >= 5) {
+                        ch0.style.color = "green";
+                        
+                    }
+                    else {
+                        ch0.style.color = "red";
+                    }
+
+                    if (passInput.match(/[0-9]/i)) {
+                        ch1.style.color = "green";
+                    }
+                    else {
+                        ch1.style.color = "red";
+                    }
+
+                    if (passInput.match(/[^A-Za-z0-9-'']/i)) {
+                        ch2.style.color = "green";
+                    }
+                    else {
+                        ch2.style.color = "red";
+                    }
+
+                    if (passLength >= 5 && passInput.match(/[0-9]/i) && passInput.match(/[^A-Za-z0-9-'']/i)) {
+                        button.disabled = false;
+                        button.style.color = "green";
+                    } else {
+                        button.disabled = true;
+                        button.style.color = "red";
+                    }
+                }
+            </script>
+            <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+                $(document).ready(function () {
+                    $("#regname").on("input", function () {
+                        var regname = $(this).val();
+
+                        $.ajax({
+                            url: "/Home/CheckLogin",
+                            method: "POST",
+                            data: { regname: regname },
+                            success: function (response) {
+                                console.log(response);
+                                if (response.isAvailable === true || response.IsAvailable === "true") {
+                                    document.getElementById("logincheck").innerHTML = '<span></span>'
+                                    $("#regbtn").prop("disabled", false).css("background-color", "orange");
+                                } else {
+                                    document.getElementById("logincheck").innerHTML = '<span>Login is already used</span>'
+                                    $("#regbtn").prop("disabled", true).css("background-color", "grey");
+                                }
+                            }
+                        });
+                    });
+                });
+
+</script>
+
+        </form>
+        
+    </div>
+</body>
+</html>

@@ -1,0 +1,77 @@
+@model List<MainUser>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="~/css/main_style.css">
+</head>
+<body>
+    <div class="user-profile">
+        <div class="search-container">
+            <form method="post" action="@Url.Action("SearchProfile", "Home")">
+                <input type="text" name="searchData" class="searchData" value="Search for other user by name or surname" />
+                <div class="search-button">
+                    <button type="submit" id="searchButton"><span>Search</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+    @{
+        List<MainUser> foundUsers = Model;
+    }
+    @if (foundUsers != null)
+    {
+        foreach (var profile in foundUsers)
+        {
+            var userStyles = Misc.GetUserStyle(profile.getId());
+            var userGears = Misc.GetUserGear(profile.getId());
+            string styleString = "";
+            string gearString = "";
+
+            foreach (var style in userStyles)
+            {
+                styleString += style.NAME;
+                styleString += ", ";
+            }
+            foreach (var gear in userGears)
+            {
+                gearString += gear.NAME;
+                gearString += ", ";
+            }
+
+            <div class="user-profile">
+                <div class="container">
+                    <div class="row">
+                        <div>
+                            <div>
+                                <br>
+
+
+                                <div style="text-align: center;">
+                                    <h3>User Profile</h3>
+                                </div>
+                                <div>
+                                    <h3><i></i>General Information</h3>
+                                </div>
+                                <div class="user-details">
+                                    <strong>
+                                        <img src=@profile.getImage() alt="Italian Trulli" style="width: min(100px, 50%); border-radius: min(100px, 50%);">
+                                        <p class="profileInfo">Name: <span class="name">@profile.getName()</span></p>
+                                        <p class="profileInfo">Surname: <span class="surname">@profile.getLastName()</span></p>
+                                        <p class="profileInfo">Age: <span class="age">@profile.getAge()</span></p>
+                                        <p class="profileInfo">Advancement level: <span class="skill">@profile.getSkills()</span></p>
+                                        <p class="profileInfo">Style: <span class="style">@styleString</span></p>
+                                        <p class="profileInfo">Gear: <span class="gear">@gearString</span></p>
+                                        <p class="profileInfo">E-mail address: <span class="email">@profile.getEmial()</span></p>
+                                    </strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        }
+    }
+</body>
+</html>
